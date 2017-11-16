@@ -5,6 +5,8 @@ PowerShell Scripts
 
 We use the internal script documentation built into PowerShell. Check the first few lines of a PowerShell script for more information.
 
+http://pshscripts.blogspot.com/2008/12/get-autohelpps1.html
+
 ```PowerShell
 <#
 .SYNOPSIS

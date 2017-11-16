@@ -17,8 +17,8 @@ Set-MailboxRegionalConfiguration -Identity $AdminEmail -Language 1033 -TimeZone 
 Set-MsolUser -UserPrincipalName $AdminEmail -PasswordNeverExpires $true
 
 
-$Credential = Get-Credential
-Import-PSSession (New-PSSession -ConfigurationName Microsoft.Exchange -Credential $credential -ConnectionURI https://ps.outlook.com/powershell -Authentication Basic -AllowRedirection) -AllowClobber
+#$Credential = Get-Credential
+#Import-PSSession (New-PSSession -ConfigurationName Microsoft.Exchange -Credential $credential -ConnectionURI https://ps.outlook.com/powershell -Authentication Basic -AllowRedirection) -AllowClobber
 ​Enable-OrganizationCustomization
 New-ManagementRoleAssignment -Role ApplicationImpersonation -User $AdminEmail
 

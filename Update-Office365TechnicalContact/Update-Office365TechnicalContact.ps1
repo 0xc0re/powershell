@@ -3,6 +3,7 @@
 Used to update the Office 365 technical contact so the customer isn't receiving the AD Connect messages directly.
 
 .DESCRIPTION
+Connect to Office 365 prior to running script
 Create contact for John Gruber
 Create Distribution Group and add John Gruber to the group
 Hide the contact
@@ -10,8 +11,8 @@ Hide the group
 
 .NOTES
 Version 0.91
+After this script is run you'll need to set the group as the contact for Office 365 support.
 
-Connect to Office 365 prior to running script
 
 .LINK
 https://technet.microsoft.com/en-us/library/bb124519(v=exchg.160).aspx

@@ -1,0 +1,2 @@
+sAMAccountName,mail,proxyAddresses
+administrator,administrator@email.com,"SMTP:administrator@email.com,smtp:administrator@domain.com"

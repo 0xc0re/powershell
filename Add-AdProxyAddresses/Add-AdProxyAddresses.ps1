@@ -10,25 +10,31 @@ Version: 0.1
 #>
 
 Param(
-    [string]$CsvPath="ProxyAddresses.csv"
+    [string]$CsvPath="Users.csv"
 )
 
 Import-Module ActiveDirectory
 
 $Users = Import-Csv $CsvPath
-$UsersWithError = @()
 $Results = @()
 
 foreach ($User in $Users) {
     $Account = ""
-    $Account = Get-ADUser -Identity $User.sAMAccountName -Properties sAMAccountName,mail,proxyAddresses
+    $Account = Get-ADUser -Identity $User.Identity -Properties sAMAccountName,mail,proxyAddresses
 
     if ($Account -eq "") {
-        $UsersWithError += new-object psobject -Property @{'identity'=$User.sAMAccountName;'error'="Couldn't find account"}
+        $Results += new-object psobject -Property @{'identity'=$User.Identity;'error'="Couldn't find account";'oldProxyAddresses'="";'newProxyAddresses'="";'message'=""}
         continue
+    }
+
+    if ($Account.proxyAddresses) {
+    } else {
+        $ProxyString = $Account.proxyAddresses -join ","
+        $Results += new-object psobject -Property @{'identity'=$User.Identity;'error'="";'message'="Updating proxyAddresses field";'oldProxyAddresses'=$ProxyString;'newProxyAddresses'=$User.proxyAddresses}
+        foreach ($ProxyAddress in $User.proxyAddresses.split(',')) {
+            $Account | Set-ADUser -Add @{proxyAddresses=$ProxyAddress}
+        }
     }
 }
 
-if ($UsersWithError.length -gt 0) {
-    $UsersWithError | Export-Csv UsersWithErrors.csv -NoTypeInformation
-}
+$Results | Export-Csv Add-AdProxyAddressesResults.csv -NoTypeInformation

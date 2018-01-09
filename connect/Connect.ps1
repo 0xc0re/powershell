@@ -64,5 +64,10 @@ if ($cred -eq $null) {
     Write-Host "CONNECT: " -ForegroundColor Yellow -NoNewline; Write-Host "Exchange Online" -ForegroundColor Cyan;
     $exchOnlineSession = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri "https://ps.outlook.com/powershell-liveid/" -Authentication Basic -AllowRedirection -Credential $cred
     Import-PSSession $exchOnlineSession -AllowClobber
+
+    # Connect to Skype for Business
+    Write-Host "CONNECT: " -ForegroundColor Yellow -NoNewline; Write-Host "Skype for Business" -ForegroundColor Cyan;
+    $SkypeSession = New-CsOnlineSession -Credential $cred -Verbose
+    Import-PSSession $SkypeSession
 }
 

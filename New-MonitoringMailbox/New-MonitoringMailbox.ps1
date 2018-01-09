@@ -31,8 +31,8 @@ Param(
     [Parameter(Mandatory=$True,Position=3)]
     [string]$Name,
 
-    [string]$Company="C+A Global",
-    [string]$Notes="Set-AttributeForGroupMembers running on O365DC (40.142.36.212)"
+    [string]$Company="",
+    [string]$Notes=""
 
 )
 

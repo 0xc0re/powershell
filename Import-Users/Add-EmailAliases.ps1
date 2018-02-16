@@ -10,24 +10,23 @@ Run (Get-MsolAccountSku) to get the license sku
 map input csv to fields
 #>
 
-$InputPath = "mbxs.csv"
-$ErrorPath = "Add-EmailAliases-Errors.txt"
+$InputPath = "mailboxes.csv"
 
 Import-Csv -Path $InputPath | foreach {
+    Write-Host $_.EmailAddress -ForegroundColor Green
     $UserUPN = $_.EmailAddress
     $EmailAddresses = $_.EmailAddresses
 
     $Mbx = Get-Mailbox $UserUPN
 
     if ($Mbx) {
-        forEach ($Email in $EmailAddresses.split(" ")) {
-            if ($UserUPN -ne $Email -and $Email.EndsWith("serverdata.net") -eq $false) {
+        forEach ($Email in $EmailAddresses.split(",")) {
+            if ($UserUPN -ne $Email -and $Email.EndsWith("redlion.com") -eq $false) {
                 $Mbx | Set-Mailbox -EmailAddresses @{add=$Email}
             }
         }
     } else {
         $Error = "Couldn't find mailbox: $($UserUPN)"
         Write-Host $Error -ForegroundColor Red
-        $Error | Out-File -FilePath $ErrorPath -Append
     }
 }

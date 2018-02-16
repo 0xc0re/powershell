@@ -13,9 +13,9 @@ map input csv to fields
 
 # Create users in Office 365 for a list of users.
 
-$UserListPath = "mbxs.csv"
+$UserListPath = "mailboxes.csv"
 $outputPath = "Import-Users-Output.csv"
-$sku = "reseller-account:O365_BUSINESS_PREMIUM"
+$sku = "reseller-account:EXCHANGESTANDARD"
 
 Import-Csv -Path $UserListPath | foreach {
     New-MsolUser -DisplayName $_.DisplayName -FirstName $_.FirstName -LastName $_.LastName -UserPrincipalName $_.EmailAddress -Title $_.Title -Department $_.Department  -UsageLocation "US" -PhoneNumber $_.PhoneNumber -MobilePhone $_.MobilePhone -Fax $_.Fax -StreetAddress $_.StreetAddress -City $_.City -State $_.State -PostalCode $_.PostalCode -LicenseAssignment $sku

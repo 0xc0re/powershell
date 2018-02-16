@@ -14,5 +14,6 @@ $InputPath = "distributiongroupmembers.csv"
 $OutputPath = "Import-DistributionListMembers-Output.csv"
 
 Import-Csv -Path $InputPath |%{
-    Add-DistributionGroupMember -Identity $_.listEmail -Member $_.EmailAddress | Export-Csv $OutputPath -NoTypeInformation -Append
+    write-host "$($_.Group) - $($_.Member)" -ForegroundColor Green
+    Add-DistributionGroupMember -Identity $_.Group -Member $_.Member | Export-Csv $OutputPath -NoTypeInformation -Append
 }

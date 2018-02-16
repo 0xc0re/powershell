@@ -16,7 +16,7 @@ $Resources = Import-Csv $CsvPath
 $Results = @()
 
 foreach ($Resource in $Resources) {
-    #$Mbx = New-Mailbox -DisplayName $Resource.DisplayName -Room -PrimarySmtpAddress $Resource.Email -Alias $Resource.Alias -Name $Resource.Name
+    $Mbx = New-Mailbox -DisplayName $Resource.DisplayName -Room -PrimarySmtpAddress $Resource.Email -Alias $Resource.Alias -Name $Resource.Name
 
     $ProxyAddresses = $Resource.ProxyAddresses.split(',')
     foreach ($ProxyAddress in $ProxyAddresses) {

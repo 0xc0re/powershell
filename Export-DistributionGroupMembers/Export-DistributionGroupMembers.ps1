@@ -17,4 +17,4 @@ foreach ($Group in $Groups) {
     }
 }
 
-$Exports | Export-Csv DistributionGroupMembers.ps1 -NoTypeInformation
+$Exports | Export-Csv DistributionGroupMembers.csv -NoTypeInformation

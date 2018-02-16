@@ -1,1 +1,1 @@
-get-mailbox -ResultSize unlimited | Get-MailboxFolderPermission | where {$_.User.UserType -ne 'Default' -and $_.User.UserType -ne "Anonymous"}
+get-mailbox -ResultSize unlimited | Get-MailboxFolderPermission | where {$_.User.UserType -ne 'Default' -and $_.User.UserType -ne "Anonymous"} | Export-Csv MailboxFolderPermissions.csv -NoTypeInformation

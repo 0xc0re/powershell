@@ -41,16 +41,18 @@ $EncryptedPassword = ConvertTo-SecureString -String $Password -AsPlainText -Forc
 $Mbx = New-Mailbox -Alias $Alias -Name $Name -Room -EnableRoomMailboxAccount $true -RoomMailboxPassword $EncryptedPassword
 
 # Disable Junk email filter
-$Mbx | Set-MailboxJunkEmailConfiguration –Enabled $False
+Set-MailboxJunkEmailConfiguration $Alias –Enabled $False
 
 # Set Password to never expire
-Set-MsolUser -UserPrincipalName $Mbx.UserPrincipalName -PasswordNeverExpires $true
+Set-MsolUser -UserPrincipalName $Alias -PasswordNeverExpires $true
+
+Set-MailboxRegionalConfiguration $Alias -Language 1033 -TimeZone "Eastern Standard Time"
 
 # Hide mailbox from address books
-Set-Mailbox $Mbx.UserPrincipalName -HiddenFromAddressListsEnabled $true
+Set-Mailbox $Alias -HiddenFromAddressListsEnabled $true
 
 # Set the company. This should be set to the customer runnning the script if another tenant is sending the email. For example, If I run a script from the TierPoint tenant for our customer MTE then I set the company to MTE
-if ($Company) { Set-User $Mbx.UserPrincipalName -Company $Company }
+if ($Company) { Set-User $Alias -Company $Company }
 
 # Notes about why the mailbox is used.
-if ($Notes) { Set-User $Mbx.UserPrincipalName -Notes $Notes }
+if ($Notes) { Set-User $Alias -Notes $Notes }

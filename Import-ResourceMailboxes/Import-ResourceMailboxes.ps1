@@ -17,7 +17,7 @@ $Results = @()
 
 foreach ($Resource in $Resources) {
     $Mbx = New-Mailbox -DisplayName $Resource.DisplayName -Room -PrimarySmtpAddress $Resource.Email -Alias $Resource.Alias -Name $Resource.Name
-
+    <#
     $ProxyAddresses = $Resource.ProxyAddresses.split(',')
     foreach ($ProxyAddress in $ProxyAddresses) {
         if ($ProxyAddress.StartsWith('smtp:')) {
@@ -25,4 +25,5 @@ foreach ($Resource in $Resources) {
             Set-Mailbox $Resource.Email -EmailAddresses @{add=$ProxyAddress.Substring(5)}
         }
     }
+    #>
 }

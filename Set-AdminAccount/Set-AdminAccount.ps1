@@ -14,11 +14,16 @@ Param(
 )
 
 if (!$AdminEmail) {
-    $AdminEmail = (get-mailbox 'admin').userprincipalname
+    $Mbx = get-mailbox 'admin'
+    if ($Mbx) {
+        $AdminEmail = (get-mailbox 'admin').userprincipalname
+    } else {
+        $AdminEmail = read-host "Admin Email Address?"
+    }
 }
 
-Set-MailboxRegionalConfiguration -Identity $AdminEmail -Language 1033 -TimeZone "Eastern Standard Time"
 Set-MsolUser -UserPrincipalName $AdminEmail -PasswordNeverExpires $true
+Set-MailboxRegionalConfiguration -Identity $AdminEmail -Language 1033 -TimeZone "Eastern Standard Time"
 
 <#
 $Credential = Get-Credential

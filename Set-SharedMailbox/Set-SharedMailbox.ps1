@@ -17,10 +17,11 @@ Param(
 $Users = Import-Csv $CsvPath
 
 foreach ($User in $Users) {
-    Write-Host $User.identity
-    $Licenses = (Get-MsolUser -UserPrincipalName $User.identity).licenses.AccountSkuId
-    Set-Mailbox $User.identity -Type Shared
+    $upn = $User.identity
+    Write-Host $upn
+    $Licenses = (Get-MsolUser -UserPrincipalName $upn).licenses.AccountSkuId
+    Set-Mailbox $upn -Type Shared
     foreach ($License in $Licenses) {
-        Set-MsolUserLicense -UserPrincipalName $User.identity -RemoveLicenses $License
+        Set-MsolUserLicense -UserPrincipalName $upn -RemoveLicenses $License
     }
 }

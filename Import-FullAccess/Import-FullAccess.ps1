@@ -1,5 +1,5 @@
 Param(
-    [string]$CsvPath="SendAs.csv"
+    [string]$CsvPath="FullAccess.csv"
 )
 
 $Mbxs = Get-Mailbox -ResultSize unlimited
@@ -10,10 +10,10 @@ foreach ($Permission in $Permissions) {
         $Trustees = $Permission.Trustee.Split(";")
         foreach ($Trustee in $Trustees) {
             write-host "Granting $($Trustee) the ability to send as $($Permission.Identity)" -ForegroundColor Green
-            Add-RecipientPermission $Permission.Identity -AccessRights SendAs -Trustee $Trustee -Confirm:$false
+            Add-MailboxPermission -Identity $Permission.Identity -User $Trustee -AccessRights FullAccess -InheritanceType All -Confirm:$false
         }
     } else {
         write-host "Granting $($Permission.Trustee) the ability to send as $($Permission.Identity)" -ForegroundColor Green
-        Add-RecipientPermission $Permission.Identity -AccessRights SendAs -Trustee $Permission.Trustee -Confirm:$false
+        Add-MailboxPermission -Identity $Permission.Identity -User $Permission.Trustee -AccessRights FullAccess -InheritanceType All -Confirm:$false
     }
 }

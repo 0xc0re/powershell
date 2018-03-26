@@ -13,17 +13,18 @@ Param(
     [string]$AdminEmail
 )
 
-if (!$AdminEmail) {
-    $Mbx = get-mailbox 'admin'
-    if ($Mbx) {
-        $AdminEmail = (get-mailbox 'admin').userprincipalname
-    } else {
-        $AdminEmail = read-host "Admin Email Address?"
-    }
+$admin = Get-MsolUser -All | where {$_.userprincipalname -like "admin@*"}
+if ($admin.length -eq 1) {
+    $AdminEmail = $admin.UserPrincipalName
+} else {
+    $AdminEmail = read-host "Admin Email Address?"
 }
 
+Write-Host "Setting $AdminEmail password to never expire" -ForegroundColor Green
 Set-MsolUser -UserPrincipalName $AdminEmail -PasswordNeverExpires $true
-Set-MailboxRegionalConfiguration -Identity $AdminEmail -Language 1033 -TimeZone "Eastern Standard Time"
+
+#Write-Host "Setting $AdminEmail language and time zone" -ForegroundColor Green
+#Set-MailboxRegionalConfiguration -Identity $AdminEmail -Language 1033 -TimeZone "Eastern Standard Time"
 
 <#
 $Credential = Get-Credential
